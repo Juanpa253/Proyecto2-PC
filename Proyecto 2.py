@@ -1,18 +1,56 @@
 
 class Empleado:
     def __init__(self):
-        CodigoID = input("Ingrese su codigo ID: ")
-        Estacion = input("Ingrese su estacion: ")
-        Nombre = input("Ingrese su nombre: ")
-        Apellido = input("Ingrese su apellido: ")
-        FechaNac = input("Ingrese su fecha de nacimiento: ")
-        Password= input("Ingrese su contraseña: ")
-        self.CodigoID = CodigoID
-        self.Estacion = Estacion
-        self.Nombre = Nombre
-        self.Apellido = Apellido
-        self.FechaNac = FechaNac
-        self.Password = Password
+        self.VerificarCodigo()
+        self.AsignarEstacion()
+        self.Nombre = input("Ingrese su nombre: ")
+        self.Apellido = input("Ingrese su apellido: ")
+        self.AsignarFechaNac()
+        self.Password = input("Ingrese su contraseña: ")
+    
+    #Verificar que el código cumpla con el formato establecido
+    def VerificarCodigo (self):
+        CodigoAceptado = False
+        while CodigoAceptado == False:
+            CodigoID = input("Ingrese su codigo ID: ")
+            if (CodigoID[0] == "S" or CodigoID[0] == "O") and (CodigoID[1] == "-") and (CodigoID[2:].isdigit):
+                self.CodigoID = CodigoID
+                CodigoAceptado = True
+            else:
+                print("Ingrese un código válido.")
+
+    #Asignar las estaciones
+    def AsignarEstacion (self):
+            if self.CodigoID[0]  == "S":
+                self.Estacion = "Supervisor"
+            else:
+                self.Estacion = input("Ingrese su estacion: ")
+
+    def AsignarFechaNac (self):
+        FechaAceptada = False
+        while FechaAceptada == False:
+            FechaNac = input("Ingrese su fecha de nacimiento: ")
+            if len(FechaNac) == 10:
+                Dia = int(FechaNac[0:2])
+                Espacio1 = [2]
+                Mes = int(FechaNac[3:5])
+                Espacio2 = [5]
+                Año = int(FechaNac[6:10])
+                if (Dia > 0 and Dia <= 31) and (Mes > 0 and Mes < 13):
+                    self.FechaNac = FechaNac
+                    FechaAceptada = True
+                else:
+                    print("Ingrese una fecha valida.")
+            else:
+                print("Ingrese una fecha valida.")
+        
+        
+
+
+            
+  
+
+
 
 SuperVisor = Empleado()
 
@@ -45,7 +83,7 @@ while Continuar == True:
     elif  MenuNumero == 3:
         o = 0
     
-    #Historial de producción
+    #Historial de produccin
     elif MenuNumero == 4:
         o = 0
         
@@ -57,11 +95,11 @@ while Continuar == True:
     elif MenuNumero == 6:
         o = 0
     
-    #Restablecer contraseña
+    #Restablecer contrasena
     elif MenuNumero == 7:
         o = 0
 
-    #Cambiar contraseña
+    #Cambiar contrasena
     elif MenuNumero == 8:
         o = 0
 
