@@ -1,4 +1,20 @@
 
+class Empleado:
+    def __init__(self):
+        CodigoID = input("Ingrese su codigo ID: ")
+        Estacion = input("Ingrese su estacion: ")
+        Nombre = input("Ingrese su nombre: ")
+        Apellido = input("Ingrese su apellido: ")
+        FechaNac = input("Ingrese su fecha de nacimiento: ")
+        Password= input("Ingrese su contraseña: ")
+        self.CodigoID = CodigoID
+        self.Estacion = Estacion
+        self.Nombre = Nombre
+        self.Apellido = Apellido
+        self.FechaNac = FechaNac
+        self.Password = Password
+
+SuperVisor = Empleado()
 
 
 
