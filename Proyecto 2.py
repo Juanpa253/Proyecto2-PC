@@ -7,7 +7,6 @@ EstacionDos = []
 EstacionTres = []
 Estaciones = []
 TiempoSimulado = False
-DolorínFinal = False
 #Clase Empleado
 class Empleado:
     def __init__(self):
@@ -63,10 +62,22 @@ class Empleado:
 #Funciones del Laboratorio  
 def HistorialDeProduccion():
     for i,Estacion in enumerate(Estaciones,start=1):
-                Texto= "Estacion"+str(i)
-                for Dia in Estacion:
-                    Texto = Texto + '\t' + str(Dia)
-                print (Texto)
+        Texto= "Estacion"+str(i)
+        for Dia in Estacion:
+             Texto = Texto + '\t' + str(Dia)
+        print (Texto)
+
+def CalculoSalarios():
+    for i,Estacion in enumerate (Estaciones,start=1):
+        Texto = "Estacion"+str(i)
+        for Dia in Estacion:
+            if Dia >= 100:
+                Paga = (Dia * 5) + 15
+            else:
+                Paga = Dia * 5
+            Texto = Texto + '\t' + "$" + str(Paga)
+        print(Texto)
+
 
 #Inicio del programa        
 print("Bienvenido a Laboratorio Dolorin")
@@ -143,13 +154,13 @@ while Continuar == True:
                 Estaciones[2][i] = round(Dia*0.97)
             print("Valores de produccion despues de control de calidad")
             HistorialDeProduccion()
-        DolorínFinal = True
     
     #Pago a operarios
     elif MenuNumero == 6:
-        if (TiempoSimulado == False) and (DolorínFinal == False):
+        if (TiempoSimulado == False):
             print("Para ingresar a esta función, primero simule el paso del tiempo.")
-    
+        else:
+            CalculoSalarios()
     #Restablecer contrasena
     elif MenuNumero == 7:
         o = 0
