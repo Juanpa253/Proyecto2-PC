@@ -7,6 +7,7 @@ EstacionDos = []
 EstacionTres = []
 Estaciones = []
 TiempoSimulado = False
+DolorínFinal = False
 #Clase Empleado
 class Empleado:
     def __init__(self):
@@ -59,7 +60,14 @@ class Empleado:
             else:
                 print("Ingrese una fecha valida.")
 
-#Funciones del Laboratorio   
+#Funciones del Laboratorio  
+def HistorialDeProduccion():
+    for i,Estacion in enumerate(Estaciones,start=1):
+                Texto= "Estacion"+str(i)
+                for Dia in Estacion:
+                    Texto = Texto + '\t' + str(Dia)
+                print (Texto)
+
 #Inicio del programa        
 print("Bienvenido a Laboratorio Dolorin")
 print("Ingrese los datos del supervisor de planta")
@@ -100,14 +108,16 @@ while Continuar == True:
         EstacionUno.clear()
         EstacionDos.clear()
         EstacionTres.clear()
+        Estaciones.clear()
         #Generar produccion de estaciones de trabajo
         for i in range(0,5):
             EstacionUno.append(random.randint(75,120))
             EstacionDos.append(random.randint(75,120))
             EstacionTres.append(random.randint(75,120))
-        Estaciones.append(EstacionUno)
-        Estaciones.append(EstacionDos)
-        Estaciones.append(EstacionTres)
+        #Agregar una copia de los arreglos para conservar los valores aleatorios generados originalmente
+        Estaciones.append(EstacionUno.copy())
+        Estaciones.append(EstacionDos.copy())
+        Estaciones.append(EstacionTres.copy())
         TiempoSimulado = True
         print("Simulacion de tiempo completada")
             
@@ -116,20 +126,28 @@ while Continuar == True:
         if TiempoSimulado == False:
             print("Para ingresar a esta función, primero simule el paso del tiempo.")
         else:
-            for i,Estacion in enumerate(Estaciones,start=1):
-                Texto= "Estacion"+str(i)
-                for Dia in Estacion:
-                    Texto = Texto + '\t' + str(Dia)
-                print (Texto)
+            HistorialDeProduccion()
         
     #Control de calidad
     elif MenuNumero == 5:
         if TiempoSimulado == False:
             print("Para ingresar a esta función, primero simule el paso del tiempo.")
+        else:
+            print("Valores de produccion antes de control de calidad")
+            HistorialDeProduccion()
+            for i,Dia in enumerate(Estaciones[0],start=0):
+                Estaciones[0][i] = round(Dia*0.9) 
+            for i,Dia in enumerate(Estaciones[1],start=0):
+                Estaciones[1][i] = round(Dia*0.94)
+            for i,Dia in enumerate(Estaciones[2],start=0):
+                Estaciones[2][i] = round(Dia*0.97)
+            print("Valores de produccion despues de control de calidad")
+            HistorialDeProduccion()
+        DolorínFinal = True
     
     #Pago a operarios
     elif MenuNumero == 6:
-        if TiempoSimulado == False:
+        if (TiempoSimulado == False) and (DolorínFinal == False):
             print("Para ingresar a esta función, primero simule el paso del tiempo.")
     
     #Restablecer contrasena
