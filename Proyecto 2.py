@@ -12,22 +12,27 @@ class Empleado:
     def __init__(self):
         self.VerificarCodigo()
         self.AsignarEstacion()
-        self.Nombre = input("Ingrese su nombre: ")
-        self.Apellido = input("Ingrese su apellido: ")
+        self.Nombre = input("Ingrese su nombre: ") #Se le asigna valor al atributo
+        self.Apellido = input("Ingrese su apellido: ") #Se le asigna valor al atributo
         self.AsignarFechaNac()
-        self.Password = input("Ingrese su contraseña: ")
+        self.Password = input("Ingrese su contraseña: ") #Se le asigna valor al atributo
     
     #Verificar que el código cumpla con el formato establecido
     def VerificarCodigo (self):
         CodigoAceptado = False
         while CodigoAceptado == False:
+            CodigoExiste = False
             CodigoID = input("Ingrese su codigo ID: ")
-            if (CodigoID[0] == "S" or CodigoID[0] == "O") and (CodigoID[1] == "-") and (CodigoID[2:].isdigit):
+            for Empleado in ArregloEmpleados:
+                if Empleado.CodigoID == CodigoID:
+                    CodigoExiste = True
+                    print("El codigo ya existe")
+            if (CodigoID[0] == "S" or CodigoID[0] == "O") and (CodigoID[1] == "-") and (CodigoID[2:].isdigit) and (CodigoExiste == False):
                 if len(ArregloEmpleados) == 0 and CodigoID[0] == "S":
-                    self.CodigoID = CodigoID
+                    self.CodigoID = CodigoID #Se le asigna valor al atributo
                     CodigoAceptado = True
                 elif len(ArregloEmpleados) >= 1 and CodigoID[0] == "O":
-                    self.CodigoID = CodigoID
+                    self.CodigoID = CodigoID #Se le asigna valor al atributo
                     CodigoAceptado = True
                 else: 
                     print("Primero se deben de ingresar los datos del supervisor de planta.")
@@ -38,9 +43,9 @@ class Empleado:
     #Asignar las estaciones
     def AsignarEstacion (self):
             if (self.CodigoID[0]  == "S") or (len(ArregloEmpleados)==0):
-                self.Estacion = "Supervisor"
+                self.Estacion = "Supervisor" #Se le asigna valor al atributo
             else:
-                self.Estacion = input("Ingrese su estacion: ")
+                self.Estacion = input("Ingrese su estacion: ") #Se le asigna valor al atributo
 
     def AsignarFechaNac (self):
         FechaAceptada = False
@@ -51,7 +56,7 @@ class Empleado:
                 Mes = int(FechaNac[3:5])
                 Año = int(FechaNac[6:10])
                 if (Dia > 0 and Dia <= 31) and (Mes > 0 and Mes < 13) and (FechaNac[2] == "-" and FechaNac[5] == "-"):
-                    self.FechaNac = FechaNac
+                    self.FechaNac = FechaNac #Se le asigna valor al atributo
                     FechaAceptada = True
                 else:
                     print("Ingrese una fecha valida.")
@@ -78,14 +83,36 @@ def CalculoSalarios():
             Texto = Texto + '\t' + "$" + str(Paga)
         print(Texto)
 
+def RestaurarPassword(CodigoID):
+    for Empleado in ArregloEmpleados:
+        if Empleado.CodigoID == CodigoID:
+            Empleado.Contraseña = Empleado.Nombre + "." + Empleado.Apellido + Empleado.FechaNac[6:10]
+            print("La contrasena ha sido restaurada.")
+        else:
+            print("No se encontró el usuario.")
 
+def CambiarPassword(CodigoID, PasswordActual, PasswordNuevo):
+    EmpleadoEncontrado = False
+    for Empleado in ArregloEmpleados:
+        if Empleado.CodigoID == CodigoID:
+            if Empleado.Password == PasswordActual:
+                Empleado.Password = PasswordNuevo
+                print("La contrasena ha sido cambiada.")
+                EmpleadoEncontrado = True
+                break
+            else:
+                print("Las contrasenas no coinciden.")
+    if EmpleadoEncontrado == False:
+        print("No se encontro el empleado")
+
+        
 #Inicio del programa        
 print("Bienvenido a Laboratorio Dolorin")
 print("Ingrese los datos del supervisor de planta")
 #Creando al empleado Supervisor
-#Supervisor = Empleado()
+Supervisor = Empleado()
 #Agregando al supervisor al listado de colaboradores
-#ArregloEmpleados.append (Supervisor)
+ArregloEmpleados.append (Supervisor)
 
 
 Continuar = True
@@ -106,6 +133,7 @@ while Continuar == True:
     if MenuNumero == 1:
         #Ciclo de registro operadores
         for i in range(0,3):
+            print(f"Ingresar información del empleado {i+1}:" )
             Operador = Empleado()
             ArregloEmpleados.append(Operador)
 
@@ -122,7 +150,7 @@ while Continuar == True:
         Estaciones.clear()
         #Generar produccion de estaciones de trabajo
         for i in range(0,5):
-            EstacionUno.append(random.randint(75,120))
+            EstacionUno.append(random.randint(75,120)) #Fuente: W3Schools
             EstacionDos.append(random.randint(75,120))
             EstacionTres.append(random.randint(75,120))
         #Agregar una copia de los arreglos para conservar los valores aleatorios generados originalmente
@@ -161,13 +189,18 @@ while Continuar == True:
             print("Para ingresar a esta función, primero simule el paso del tiempo.")
         else:
             CalculoSalarios()
+
     #Restablecer contrasena
     elif MenuNumero == 7:
-        o = 0
+        CodigoID = input("Ingrese el codigo ID del operario a cambiar contraseña: ")
+        RestaurarPassword(CodigoID)
 
     #Cambiar contrasena
     elif MenuNumero == 8:
-        o = 0
+        CodigoID = input("Ingrese el codigo ID del operario a cambiar contraseña: ")
+        PasswordActual = input("Ingrese el password actual: ")
+        PasswordNuevo = input("Ingrese el password nuevo: ")
+        CambiarPassword(CodigoID,PasswordActual,PasswordNuevo)
 
     #Salida
     elif MenuNumero == 9:
