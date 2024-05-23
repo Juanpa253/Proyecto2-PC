@@ -16,6 +16,8 @@ class Empleado:
         self.Apellido = input("Ingrese su apellido: ") #Se le asigna valor al atributo
         self.AsignarFechaNac()
         self.Password = input("Ingrese su contraseña: ") #Se le asigna valor al atributo
+        
+        print("")
     
     #Verificar que el código cumpla con el formato establecido
     def VerificarCodigo (self):
@@ -121,6 +123,8 @@ ArregloEmpleados.append (Supervisor)
 Continuar = True
 while Continuar == True:
     #Menu
+    print("")
+    print("========== MENU ==========")
     print("1. Ingresar operarios")
     print("2. Mostrar equipo de trabajo")
     print("3. Simular paso del tiempo")
