@@ -84,13 +84,16 @@ def CalculoSalarios():
         print(Texto)
 
 def RestaurarPassword(CodigoID):
+    EmpleadoEncontrado = False
     for Empleado in ArregloEmpleados:
         if Empleado.CodigoID == CodigoID:
-            Empleado.Contraseña = Empleado.Nombre + "." + Empleado.Apellido + Empleado.FechaNac[6:10]
+            Empleado.Password = Empleado.Nombre + "." + Empleado.Apellido + Empleado.FechaNac[6:10]
             print("La contrasena ha sido restaurada.")
-        else:
-            print("No se encontró el usuario.")
-
+            EmpleadoEncontrado = True
+            break
+    if EmpleadoEncontrado == False:
+        print("No se encontro el empleado")
+        
 def CambiarPassword(CodigoID, PasswordActual, PasswordNuevo):
     EmpleadoEncontrado = False
     for Empleado in ArregloEmpleados:
@@ -139,7 +142,11 @@ while Continuar == True:
 
     #Mostrar equipo de trabajo
     elif MenuNumero == 2:
-        O = 0
+        Encabezados = 'CodigoID\tEstacion\tNombre\tApellido\tFechaNac.\tContrasena'
+        print(Encabezados)
+        for Operador in ArregloEmpleados:
+            Texto = Operador.CodigoID + '\t' + Operador.Estacion + '\t' + Operador.Nombre + '\t' + Operador.Apellido + '\t' + Operador.FechaNac + '\t' + Operador.Password
+            print(Texto)
 
     #Simular paso del tiempo
     elif  MenuNumero == 3:
